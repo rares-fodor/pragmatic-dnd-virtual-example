@@ -6,8 +6,10 @@
     import { triggerPostMoveFlash } from "@atlaskit/pragmatic-drag-and-drop-flourish/trigger-post-move-flash";
     import type { Edge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/types";
     import { onMount } from "svelte";
+    import { createVirtualizer } from "@tanstack/svelte-virtual";
 
     let exampleList: Item[] = getExampleList(10000);
+    let count = exampleList.length;
 
     onMount(() => {
         return monitorForElements({
@@ -39,6 +41,8 @@
                     axis: 'vertical',
                 })
 
+                virtualItems = $virtualizer.getVirtualItems();
+
                 setTimeout(() => {
                     const element = document.querySelector(`[data-item-index="${targetData.index}"]`);
                     if (element instanceof HTMLElement) {
@@ -49,11 +53,31 @@
         })
     })
 
+    let scrollElement: HTMLDivElement;
+
+    $: virtualizer = createVirtualizer<HTMLDivElement, HTMLDivElement>({
+        count,
+        getScrollElement: () => scrollElement,
+        estimateSize: () => 40,
+        overscan: 5
+    })
+
+    $: virtualItems = $virtualizer.getVirtualItems();
+
 </script>
 
 
-<div class="h-[500px] w-full overflow-auto">
-{#each exampleList as item, index (item.id)}
-    <ListItem item={item} index={index}/>
-{/each}
+<div bind:this={scrollElement} class="h-screen w-full overflow-auto">
+    <div
+        style="position: relative; height: {$virtualizer.getTotalSize()}px; width: 100%"
+    >
+        {#each virtualItems as virtualItem (exampleList[virtualItem.index].id)}
+            <div
+                style="position: absolute; top: 0; left: 0; width: 100%; height: {virtualItem.size}; transform: translateY({virtualItem.start}px);"
+            >
+                <ListItem item={exampleList[virtualItem.index]} index={virtualItem.index}/>
+            </div>
+        {/each}
+    </div>
 </div>
+

@@ -58,4 +58,3 @@
 <div bind:this={element} data-item-index={index} class={`m-1 p-1 border border-black ${stateStyles[state] ?? ''}`}>
     {item.label}
 </div>
-
