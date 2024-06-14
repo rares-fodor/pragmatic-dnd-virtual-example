@@ -1,38 +1,20 @@
-# create-svelte
+## Reorderable virtual list example
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+This repository implements a drag-and-drop capable virtual list with:
+* [svelte](https://svelte.dev/)
+* [sveltekit](https://kit.svelte.dev/)
+* [pragmatic-drag-and-drop](https://github.com/atlassian/pragmatic-drag-and-drop)
+* [TanStack Virtual](https://tanstack.com/virtual/latest)
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Run locally
 
 ```bash
+# Install dependencies
+npm install
+# Start dev server
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# Alternatively, you can use the --host flag to listen all addresses.
+# This is particularly useful if you want to run the server from a virtual machine with no browser access.
+# You can use the host machine's browser to interact with the app.
+npm run dev -- --host
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
